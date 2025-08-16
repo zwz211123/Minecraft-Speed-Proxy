@@ -15,6 +15,7 @@
 #include "helper.h"
 #include <semaphore>
 #include "WebControl.h"
+#include "windows.h"
 
 using namespace std;
 
@@ -358,8 +359,14 @@ void InnerCmdline(int argc, const char** argv) {
 }
 
 
-int main(int argc,const char**argv)
-{
+int main(int argc,const char**argv){
+// 仅在 Windows 平台生效
+    #ifdef _WIN32
+    // 强制控制台输入输出编码为 UTF-8（CP_UTF8 对应编码值 65001）
+    SetConsoleOutputCP(CP_UTF8);   // 输出编码设为 UTF-8
+    SetConsoleCP(CP_UTF8);         // 输入编码设为 UTF-8
+    #endif
+
 #ifdef LINUX
 	signal(SIGPIPE, SIG_IGN);
 #endif // Linux
